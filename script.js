@@ -1,6 +1,4 @@
-// This is the boilerplate code given for you
-// You can modify this code
-// Product data
+// Sample products array
 const products = [
   { id: 1, name: "Product 1", price: 10 },
   { id: 2, name: "Product 2", price: 20 },
@@ -9,30 +7,52 @@ const products = [
   { id: 5, name: "Product 5", price: 50 },
 ];
 
-// DOM elements
-const productList = document.getElementById("product-list");
-
-// Render product list
-function renderProducts() {
-  products.forEach((product) => {
-    const li = document.createElement("li");
-    li.innerHTML = `${product.name} - $${product.price} <button class="add-to-cart-btn" data-id="${product.id}">Add to Cart</button>`;
+// Function to render the product list
+function renderProductList() {
+  const productList = document.getElementById('product-list');
+  products.forEach(product => {
+    const li = document.createElement('li');
+    li.textContent = `${product.name} - $${product.price}`;
+    
+    const addToCartBtn = document.createElement('button');
+    addToCartBtn.textContent = 'Add to Cart';
+    addToCartBtn.addEventListener('click', () => addToCart(product));
+    
+    li.appendChild(addToCartBtn);
     productList.appendChild(li);
   });
 }
 
-// Render cart list
-function renderCart() {}
+// Function to add a product to the cart
+function addToCart(product) {
+  let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+  cart.push(product);
+  sessionStorage.setItem('cart', JSON.stringify(cart));
+  renderCart();
+}
 
-// Add item to cart
-function addToCart(productId) {}
+// Function to render the shopping cart
+function renderCart() {
+  const cartList = document.getElementById('cart-list');
+  cartList.innerHTML = ''; // Clear previous cart items
 
-// Remove item from cart
-function removeFromCart(productId) {}
+  let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+  cart.forEach(product => {
+    const li = document.createElement('li');
+    li.textContent = `${product.name} - $${product.price}`;
+    cartList.appendChild(li);
+  });
+}
 
-// Clear cart
-function clearCart() {}
+// Function to clear the cart
+function clearCart() {
+  sessionStorage.removeItem('cart');
+  renderCart();
+}
 
-// Initial render
-renderProducts();
+// Attach clear cart button event listener
+document.getElementById('clear-cart-btn').addEventListener('click', clearCart);
+
+// Initial render of products and cart
+renderProductList();
 renderCart();
