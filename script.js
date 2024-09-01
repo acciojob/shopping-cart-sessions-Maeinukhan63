@@ -26,8 +26,8 @@ function renderProductList() {
 // Function to add a product to the cart
 function addToCart(product) {
   let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-  cart.push(product);
-  sessionStorage.setItem('cart', JSON.stringify(cart));
+  cart.push(product); // Add the selected product to the cart
+  sessionStorage.setItem('cart', JSON.stringify(cart)); // Update session storage
   renderCart();
 }
 
@@ -46,8 +46,8 @@ function renderCart() {
 
 // Function to clear the cart
 function clearCart() {
-  sessionStorage.removeItem('cart');
-  renderCart();
+  sessionStorage.removeItem('cart'); // Remove the cart from session storage
+  renderCart(); // Clear the cart display
 }
 
 // Attach clear cart button event listener
